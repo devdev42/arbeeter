@@ -60,7 +60,7 @@ const Index = () => {
         <header className="mb-10 text-center">
           <h1 className="text-4xl font-bold mb-2">Chess Tournament Organizer</h1>
           <p className="text-muted-foreground">
-            Manage chess tournaments with automated pairing generation and standings
+            Create and manage chess tournaments with CSV import/export
           </p>
         </header>
         
@@ -71,7 +71,7 @@ const Index = () => {
         </main>
         
         <footer className="mt-20 text-center text-sm text-muted-foreground">
-          <p>Chess Tournament Organizer • CSV-based tournament management</p>
+          <p>Tournament Organization Tool</p>
         </footer>
       </div>
     </div>
