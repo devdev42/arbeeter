@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { FileExport } from "lucide-react";
+import { FileText } from "lucide-react";
 import { Pairing, Round } from "../types/chess";
 
 interface PairingsListProps {
@@ -50,7 +50,7 @@ const PairingsList = ({ round }: PairingsListProps) => {
           className="flex items-center gap-2"
           onClick={exportPairingsCSV}
         >
-          <FileExport className="h-4 w-4" />
+          <FileText className="h-4 w-4" />
           <span>Export CSV</span>
         </Button>
       </CardHeader>
