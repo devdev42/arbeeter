@@ -58,7 +58,7 @@ const Index = () => {
     <div className="min-h-screen chess-bg">
       <div className="container py-8 max-w-7xl">
         <header className="mb-10 text-center">
-          <h1 className="text-4xl font-bold mb-2">Chess Tournament Organizer</h1>
+          <h1 className="text-4xl font-bold mb-2">Create a Chess Tournament</h1>
         </header>
         
         <main>
