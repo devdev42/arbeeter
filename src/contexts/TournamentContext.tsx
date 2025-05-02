@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Tournament, Player, Round } from '../types/chess';
 import { parseCSV, generateNewRound } from '../utils/tournamentUtils';
 import { useToast } from "@/components/ui/use-toast";
@@ -10,6 +10,7 @@ interface TournamentContextType {
   startNewRound: (roundType: "elo" | "score") => void;
   updatePlayers: (playersCSV: string) => void;
   exportStandings: () => string;
+  exitTournament: () => void;
   isLoading: boolean;
 }
 
@@ -19,6 +20,7 @@ const TournamentContext = createContext<TournamentContextType>({
   startNewRound: () => {},
   updatePlayers: () => {},
   exportStandings: () => "",
+  exitTournament: () => {},
   isLoading: false
 });
 
@@ -28,6 +30,26 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [tournament, setTournament] = useState<Tournament | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
+
+  // Load tournament data from localStorage on initial render
+  useEffect(() => {
+    const savedTournament = localStorage.getItem('chessOrganizerTournament');
+    if (savedTournament) {
+      try {
+        setTournament(JSON.parse(savedTournament));
+      } catch (error) {
+        console.error("Error loading tournament from localStorage:", error);
+        localStorage.removeItem('chessOrganizerTournament');
+      }
+    }
+  }, []);
+
+  // Save tournament data to localStorage whenever it changes
+  useEffect(() => {
+    if (tournament) {
+      localStorage.setItem('chessOrganizerTournament', JSON.stringify(tournament));
+    }
+  }, [tournament]);
 
   const initializeTournament = (name: string, playersCSV: string, firstRoundType: "elo" | "score") => {
     try {
@@ -176,6 +198,15 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return csv;
   };
 
+  const exitTournament = () => {
+    setTournament(null);
+    localStorage.removeItem('chessOrganizerTournament');
+    toast({
+      title: "Tournament Exited",
+      description: "You have successfully exited the tournament."
+    });
+  };
+
   return (
     <TournamentContext.Provider
       value={{
@@ -184,6 +215,7 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         startNewRound,
         updatePlayers,
         exportStandings,
+        exitTournament,
         isLoading
       }}
     >
