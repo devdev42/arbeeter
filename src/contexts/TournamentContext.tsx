@@ -1,12 +1,12 @@
 
 import React, { createContext, useContext, useState } from 'react';
 import { Tournament, Player, Round } from '../types/chess';
-import { parseCSV, generateEloPairings, generateScorePairings, generateNewRound } from '../utils/tournamentUtils';
+import { parseCSV, generateNewRound } from '../utils/tournamentUtils';
 import { useToast } from "@/components/ui/use-toast";
 
 interface TournamentContextType {
   tournament: Tournament | null;
-  initializeTournament: (name: string, playersCSV: string) => void;
+  initializeTournament: (name: string, playersCSV: string, firstRoundType: "elo" | "score") => void;
   startNewRound: (roundType: "elo" | "score") => void;
   updatePlayers: (playersCSV: string) => void;
   exportStandings: () => string;
@@ -29,7 +29,7 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
-  const initializeTournament = (name: string, playersCSV: string) => {
+  const initializeTournament = (name: string, playersCSV: string, firstRoundType: "elo" | "score") => {
     try {
       setIsLoading(true);
       
@@ -55,8 +55,8 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       
       setTournament(newTournament);
       
-      // Start the first round automatically based on ELO
-      startNewRound("elo");
+      // Start the first round with the selected pairing method
+      startNewRound(firstRoundType);
       
       toast({
         title: "Tournament Created",

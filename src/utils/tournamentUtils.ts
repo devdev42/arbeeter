@@ -19,6 +19,7 @@ export const parseCSV = (csvData: string, hasScore: boolean = false): Player[] =
         id: `player-${i}-${Date.now()}`
       };
       
+      // Only use the total score (4th column) if it exists and hasScore is true
       if (hasScore && values.length >= 4) {
         player.score = parseFloat(values[3].trim()) || 0;
       } else {

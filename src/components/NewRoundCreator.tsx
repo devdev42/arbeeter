@@ -58,7 +58,7 @@ const NewRoundCreator = () => {
       <CSVUploader
         onUpload={handleCSVUpload}
         title="Update Players & Scores"
-        description="Upload a CSV with format: Name, ELO, School Name, Score"
+        description="Upload a CSV with format: Name, ELO, School Name, Total Score (only first 4 columns will be used)"
         buttonText="Update Players"
       />
     </div>
