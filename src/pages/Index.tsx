@@ -59,9 +59,6 @@ const Index = () => {
       <div className="container py-8 max-w-7xl">
         <header className="mb-10 text-center">
           <h1 className="text-4xl font-bold mb-2">Chess Tournament Organizer</h1>
-          <p className="text-muted-foreground">
-            Create and manage chess tournaments with CSV import/export
-          </p>
         </header>
         
         <main>
