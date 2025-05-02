@@ -66,10 +66,6 @@ const Index = () => {
             <TournamentManager />
           </TournamentProvider>
         </main>
-        
-        <footer className="mt-20 text-center text-sm text-muted-foreground">
-          <p>Tournament Organization Tool</p>
-        </footer>
       </div>
     </div>
   );
