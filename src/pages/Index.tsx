@@ -66,7 +66,7 @@ const Index = () => {
             />
           </div>
           <h1 className="text-4xl font-bold mb-2 text-[#1A2750]">Chess Tournament Manager</h1>
-          <p className="text-[#1A2750]/80 text-lg">Warriors Port Credit Chess Club</p>
+          <p className="text-[#1A2750]/80 text-lg">Port Credit Warriors Chess Club</p>
         </header>
         
         <main>
