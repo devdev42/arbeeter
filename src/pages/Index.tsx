@@ -57,8 +57,16 @@ const Index = () => {
   return (
     <div className="min-h-screen chess-bg">
       <div className="container py-8 max-w-7xl">
-        <header className="mb-10 text-center">
-          <h1 className="text-4xl font-bold mb-2">Create a Chess Tournament</h1>
+        <header className="mb-10 text-center flex flex-col items-center">
+          <div className="mb-4">
+            <img 
+              src="/lovable-uploads/2430fcde-9a4a-4859-a9d4-454afac56eab.png" 
+              alt="Warriors Port Credit Logo" 
+              className="h-32 w-32" 
+            />
+          </div>
+          <h1 className="text-4xl font-bold mb-2 text-[#1A2750]">Chess Tournament Manager</h1>
+          <p className="text-[#1A2750]/80 text-lg">Warriors Port Credit Chess Club</p>
         </header>
         
         <main>

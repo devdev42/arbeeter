@@ -68,7 +68,9 @@ export default {
 					'black': '#b58863',
 					'accent': '#6c4d3f',
 					'light': '#f8f8f8',
-					'dark': '#262421'
+					'dark': '#262421',
+					'warriors-blue': '#1A2750',
+					'warriors-yellow': '#FECC00'
 				}
 			},
 			borderRadius: {

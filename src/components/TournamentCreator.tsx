@@ -24,20 +24,21 @@ const TournamentCreator = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Create Tournament</CardTitle>
+    <div className="space-y-6 max-w-lg mx-auto">
+      <Card className="border-2 border-[#1A2750]/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-[#1A2750] to-[#2a3a68] text-white">
+          <CardTitle className="text-center">Create Tournament</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="space-y-4">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="tournamentName">Tournament Name</Label>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="tournamentName" className="text-[#1A2750] font-medium">Tournament Name</Label>
               <Input
                 id="tournamentName"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter tournament name"
+                className="border-[#1A2750]/20 focus:border-[#FECC00] focus:ring-[#FECC00]"
               />
             </div>
           </div>
@@ -51,13 +52,15 @@ const TournamentCreator = () => {
         buttonText="Upload Players"
       />
 
-      <Button
-        onClick={handleCreateTournament}
-        disabled={!name || !csvData}
-        className="bg-chess-accent hover:bg-chess-accent/90"
-      >
-        Create Tournament
-      </Button>
+      <div className="flex justify-center pt-4">
+        <Button
+          onClick={handleCreateTournament}
+          disabled={!name || !csvData}
+          className="bg-[#1A2750] hover:bg-[#1A2750]/90 text-white px-8 py-2 rounded-md transition-colors"
+        >
+          Create Tournament
+        </Button>
+      </div>
     </div>
   );
 };

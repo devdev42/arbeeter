@@ -23,7 +23,7 @@
     --muted: 30 15% 85%;
     --muted-foreground: 30 10% 40%;
 
-    --accent: 25 50% 45%;
+    --accent: 222 82% 21%;
     --accent-foreground: 40 30% 96%;
 
     --destructive: 0 84.2% 60.2%;
@@ -64,8 +64,8 @@
     --muted: 30 10% 25%;
     --muted-foreground: 30 15% 70%;
 
-    --accent: 25 50% 45%;
-    --accent-foreground: 40 30% 96%;
+    --accent: 47 100% 50%;
+    --accent-foreground: 30 10% 15%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 40 30% 96%;
@@ -96,5 +96,31 @@
 }
 
 .chess-bg {
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0zm20 20h20v20H20z' fill='%23b58863' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0zm40 40h40v40H40z' fill='%23b58863' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* Warriors theme colors */
+.warriors-blue {
+  color: #1A2750;
+}
+
+.warriors-yellow {
+  color: #FECC00;
+}
+
+.bg-warriors-blue {
+  background-color: #1A2750;
+}
+
+.bg-warriors-yellow {
+  background-color: #FECC00;
+}
+
+.border-warriors-blue {
+  border-color: #1A2750;
+}
+
+.border-warriors-yellow {
+  border-color: #FECC00;
 }
