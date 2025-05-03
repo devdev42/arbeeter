@@ -5,83 +5,83 @@
 
 @layer base {
   :root {
-    --background: 40 30% 96%;
-    --foreground: 30 10% 15%;
+    --background: 220 70% 98%;
+    --foreground: 222 82% 21%;
 
-    --card: 40 30% 96%;
-    --card-foreground: 30 10% 15%;
+    --card: 220 70% 98%;
+    --card-foreground: 222 82% 21%;
 
-    --popover: 40 30% 96%;
-    --popover-foreground: 30 10% 15%;
+    --popover: 220 70% 98%;
+    --popover-foreground: 222 82% 21%;
 
-    --primary: 30 25% 25%;
-    --primary-foreground: 40 30% 96%;
+    --primary: 222 82% 21%;
+    --primary-foreground: 45 100% 50%;
 
-    --secondary: 30 15% 85%;
-    --secondary-foreground: 30 25% 25%;
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 222 82% 21%;
 
-    --muted: 30 15% 85%;
-    --muted-foreground: 30 10% 40%;
+    --muted: 222 47% 90%;
+    --muted-foreground: 222 47% 40%;
 
-    --accent: 222 82% 21%;
-    --accent-foreground: 40 30% 96%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 222 82% 21%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 30 15% 80%;
-    --input: 30 15% 80%;
-    --ring: 30 25% 25%;
+    --border: 222 47% 80%;
+    --input: 222 47% 80%;
+    --ring: 222 82% 21%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 40 30% 96%;
-    --sidebar-foreground: 30 10% 15%;
-    --sidebar-primary: 30 25% 25%;
-    --sidebar-primary-foreground: 40 30% 96%;
-    --sidebar-accent: 30 15% 85%;
-    --sidebar-accent-foreground: 30 25% 25%;
-    --sidebar-border: 30 15% 80%;
-    --sidebar-ring: 30 25% 25%;
+    --sidebar-background: 220 70% 98%;
+    --sidebar-foreground: 222 82% 21%;
+    --sidebar-primary: 222 82% 21%;
+    --sidebar-primary-foreground: 45 100% 50%;
+    --sidebar-accent: 222 47% 85%;
+    --sidebar-accent-foreground: 222 82% 21%;
+    --sidebar-border: 222 47% 80%;
+    --sidebar-ring: 222 82% 21%;
   }
 
   .dark {
-    --background: 30 10% 15%;
-    --foreground: 40 30% 96%;
+    --background: 222 47% 10%;
+    --foreground: 210 40% 98%;
 
-    --card: 30 10% 15%;
-    --card-foreground: 40 30% 96%;
+    --card: 222 47% 10%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 30 10% 15%;
-    --popover-foreground: 40 30% 96%;
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 40 30% 90%;
-    --primary-foreground: 30 10% 15%;
+    --primary: 45 100% 50%;
+    --primary-foreground: 222 82% 21%;
 
-    --secondary: 30 10% 25%;
-    --secondary-foreground: 40 30% 96%;
+    --secondary: 222 82% 21%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 30 10% 25%;
-    --muted-foreground: 30 15% 70%;
+    --muted: 222 47% 20%;
+    --muted-foreground: 222 47% 70%;
 
-    --accent: 47 100% 50%;
-    --accent-foreground: 30 10% 15%;
+    --accent: 222 82% 21%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 30% 96%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 30 10% 25%;
-    --input: 30 10% 25%;
-    --ring: 40 30% 90%;
+    --border: 222 47% 25%;
+    --input: 222 47% 25%;
+    --ring: 45 100% 50%;
 
-    --sidebar-background: 30 10% 15%;
-    --sidebar-foreground: 40 30% 96%;
-    --sidebar-primary: 40 30% 90%;
-    --sidebar-primary-foreground: 30 10% 15%;
-    --sidebar-accent: 30 10% 25%;
-    --sidebar-accent-foreground: 40 30% 96%;
-    --sidebar-border: 30 10% 25%;
-    --sidebar-ring: 40 30% 90%;
+    --sidebar-background: 222 47% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 45 100% 50%;
+    --sidebar-primary-foreground: 222 82% 21%;
+    --sidebar-accent: 222 47% 25%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 47% 25%;
+    --sidebar-ring: 45 100% 50%;
   }
 }
 
@@ -96,8 +96,8 @@
 }
 
 .chess-bg {
-  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0zm40 40h40v40H40z' fill='%23b58863' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
+  background-image: url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h80v80H0zm80 80h80v80H80z' fill='%231A2750' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
 
 /* Warriors theme colors */
@@ -123,4 +123,13 @@
 
 .border-warriors-yellow {
   border-color: #FECC00;
+}
+
+/* Add gradient styles for cards */
+.warriors-card-gradient {
+  background: linear-gradient(to bottom right, rgba(26, 39, 80, 0.05), rgba(26, 39, 80, 0.15));
+}
+
+.warriors-header-gradient {
+  background: linear-gradient(to right, #1A2750, #2a3a68);
 }

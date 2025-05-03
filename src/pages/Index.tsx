@@ -15,7 +15,7 @@ const TournamentManager = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[400px]">
-        <LoaderCircle className="animate-spin h-8 w-8" />
+        <LoaderCircle className="animate-spin h-8 w-8 text-[#1A2750]" />
       </div>
     );
   }
@@ -28,11 +28,26 @@ const TournamentManager = () => {
     <div className="space-y-6">
       <TournamentHeader />
       
-      <Tabs defaultValue="pairings">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="pairings">Current Pairings</TabsTrigger>
-          <TabsTrigger value="standings">Standings</TabsTrigger>
-          <TabsTrigger value="nextRound">Next Round</TabsTrigger>
+      <Tabs defaultValue="pairings" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 bg-[#1A2750]/10">
+          <TabsTrigger 
+            value="pairings" 
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+          >
+            Current Pairings
+          </TabsTrigger>
+          <TabsTrigger 
+            value="standings"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+          >
+            Standings
+          </TabsTrigger>
+          <TabsTrigger 
+            value="nextRound"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+          >
+            Next Round
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="pairings" className="mt-6">
