@@ -25,8 +25,8 @@ const TournamentCreator = () => {
 
   return (
     <div className="space-y-6 max-w-lg mx-auto">
-      <Card className="border-2 border-[#1A2750]/20 shadow-lg">
-        <CardHeader className="warriors-header-gradient text-white">
+      <Card className="border-2 border-[#1A2750]/20 shadow-lg rounded-xl">
+        <CardHeader className="warriors-header-gradient text-white rounded-t-xl">
           <CardTitle className="text-center">Create Tournament</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
