@@ -56,7 +56,7 @@ const TournamentCreator = () => {
         <Button
           onClick={handleCreateTournament}
           disabled={!name || !csvData}
-          className="bg-[#1A2750] hover:bg-[#1A2750]/90 text-white px-8 py-2 rounded-md transition-colors"
+          className="bg-[#1A2750] hover:bg-[#1A2750]/90 text-[#FECC00] px-8 py-2 rounded-md transition-colors"
         >
           Create Tournament
         </Button>

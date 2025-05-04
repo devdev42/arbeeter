@@ -96,8 +96,8 @@
 }
 
 .chess-bg {
-  background-image: url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h80v80H0zm80 80h80v80H80z' fill='%231A2750' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
+  background-image: url("data:image/svg+xml,%3Csvg width='320' height='320' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h160v160H0zm80 80h80v80H80z' fill='%231A2750' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 320px 320px;
 }
 
 /* Warriors theme colors */
@@ -132,4 +132,17 @@
 
 .warriors-header-gradient {
   background: linear-gradient(to right, #1A2750, #2a3a68);
+}
+
+/* Button styles */
+.warriors-button {
+  @apply bg-[#1A2750] text-[#FECC00] hover:bg-[#1A2750]/90 transition-colors;
+}
+
+.warriors-button-outline {
+  @apply border-[#1A2750] text-[#1A2750] hover:bg-[#1A2750]/10 transition-colors;
+}
+
+.warriors-button-secondary {
+  @apply bg-[#FECC00] text-[#1A2750] hover:bg-[#FECC00]/90 transition-colors;
 }

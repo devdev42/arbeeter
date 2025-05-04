@@ -32,19 +32,19 @@ const TournamentManager = () => {
         <TabsList className="grid w-full grid-cols-3 bg-[#1A2750]/10">
           <TabsTrigger 
             value="pairings" 
-            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-[#FECC00]"
           >
             Current Pairings
           </TabsTrigger>
           <TabsTrigger 
             value="standings"
-            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-[#FECC00]"
           >
             Standings
           </TabsTrigger>
           <TabsTrigger 
             value="nextRound"
-            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-white"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-[#FECC00]"
           >
             Next Round
           </TabsTrigger>

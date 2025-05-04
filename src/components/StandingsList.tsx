@@ -32,7 +32,7 @@ const StandingsList = ({ players, exportStandings }: StandingsListProps) => {
           <CardTitle>Current Standings</CardTitle>
           <CardDescription>Ranked by score, then by ELO rating</CardDescription>
         </div>
-        <Button onClick={handleExport} className="bg-chess-accent hover:bg-chess-accent/90">
+        <Button onClick={handleExport} className="bg-[#1A2750] hover:bg-[#1A2750]/90 text-[#FECC00]">
           Export Standings
         </Button>
       </CardHeader>

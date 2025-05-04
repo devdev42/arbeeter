@@ -64,7 +64,7 @@ const CSVUploader = ({
         <Button 
           onClick={handleUpload} 
           disabled={!file}
-          className="bg-chess-accent hover:bg-chess-accent/90"
+          className="bg-[#1A2750] hover:bg-[#1A2750]/90 text-[#FECC00]"
         >
           {buttonText}
         </Button>
