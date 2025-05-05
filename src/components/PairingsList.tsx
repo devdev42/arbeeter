@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 import { Pairing, Round } from "../types/chess";
 
 interface PairingsListProps {
@@ -62,7 +63,10 @@ const PairingsList = ({ round }: PairingsListProps) => {
               <TableHead>White</TableHead>
               <TableHead>White ELO</TableHead>
               <TableHead>White School</TableHead>
-              <TableHead>Black</TableHead>
+              <TableHead className="relative">
+                Black
+                <Separator className="absolute left-0 h-full w-[1px] bg-gray-200" orientation="vertical" />
+              </TableHead>
               <TableHead>Black ELO</TableHead>
               <TableHead>Black School</TableHead>
             </TableRow>
@@ -74,12 +78,13 @@ const PairingsList = ({ round }: PairingsListProps) => {
                 <TableCell>{pairing.white.name}</TableCell>
                 <TableCell>{pairing.white.elo}</TableCell>
                 <TableCell>{pairing.white.school}</TableCell>
-                <TableCell>
+                <TableCell className="relative">
                   {pairing.black.name === "BYE" ? (
                     <span className="text-muted-foreground">BYE</span>
                   ) : (
                     pairing.black.name
                   )}
+                  <Separator className="absolute left-0 h-full w-[1px] bg-gray-200" orientation="vertical" />
                 </TableCell>
                 <TableCell>
                   {pairing.black.name === "BYE" ? "-" : pairing.black.elo}
