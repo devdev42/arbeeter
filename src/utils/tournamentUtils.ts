@@ -53,7 +53,7 @@ export const generateScorePairings = (players: Player[]): Pairing[] => {
   return generatePairingsWithSchoolCheck(sortedPlayers);
 };
 
-// Helper function to generate pairings while avoiding school conflicts
+// Helper function to generate pairings while avoiding school conflicts and previous opponents
 const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => {
   const pairings: Pairing[] = [];
   const remainingPlayers = [...sortedPlayers];
@@ -62,14 +62,13 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
     const whitePlayer = remainingPlayers.shift()!;
     let blackPlayerIndex = -1;
     
-    // Try to find an opponent from a different school
+    // First priority: Find an opponent from a different school and not played before
     for (let i = 0; i < remainingPlayers.length; i++) {
       const potentialOpponent = remainingPlayers[i];
       
-      // Check if players are from different schools and haven't played each other
       const differentSchools = whitePlayer.school !== potentialOpponent.school;
-      const notPlayedBefore = !whitePlayer.opponents?.includes(potentialOpponent.id || '') && 
-                              !potentialOpponent.opponents?.includes(whitePlayer.id || '');
+      const notPlayedBefore = !whitePlayer.opponents?.includes(potentialOpponent.id) && 
+                              !potentialOpponent.opponents?.includes(whitePlayer.id);
       
       if (differentSchools && notPlayedBefore) {
         blackPlayerIndex = i;
@@ -77,30 +76,36 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
       }
     }
     
-    // If no suitable opponent found, take the first one (not ideal but prevents hanging)
+    // Second priority: Find an opponent not played before (even if same school)
     if (blackPlayerIndex === -1) {
       for (let i = 0; i < remainingPlayers.length; i++) {
         const potentialOpponent = remainingPlayers[i];
-        const notPlayedBefore = !whitePlayer.opponents?.includes(potentialOpponent.id || '') && 
-                                !potentialOpponent.opponents?.includes(whitePlayer.id || '');
-                                
+        
+        const notPlayedBefore = !whitePlayer.opponents?.includes(potentialOpponent.id) && 
+                                !potentialOpponent.opponents?.includes(whitePlayer.id);
+        
         if (notPlayedBefore) {
           blackPlayerIndex = i;
           break;
         }
       }
-      
-      // If still no suitable opponent found, just take the first player
-      if (blackPlayerIndex === -1) {
-        blackPlayerIndex = 0;
-      }
+    }
+    
+    // Last resort: Take the first available opponent
+    // This should only happen if all remaining players have already played against this player
+    if (blackPlayerIndex === -1) {
+      console.log(`Warning: Player ${whitePlayer.name} has already played against all remaining opponents.`);
+      blackPlayerIndex = 0;
     }
     
     const blackPlayer = remainingPlayers.splice(blackPlayerIndex, 1)[0];
     
     // Update opponents lists
-    whitePlayer.opponents = [...(whitePlayer.opponents || []), blackPlayer.id || ''];
-    blackPlayer.opponents = [...(blackPlayer.opponents || []), whitePlayer.id || ''];
+    if (!whitePlayer.opponents) whitePlayer.opponents = [];
+    if (!blackPlayer.opponents) blackPlayer.opponents = [];
+    
+    whitePlayer.opponents.push(blackPlayer.id);
+    blackPlayer.opponents.push(whitePlayer.id);
     
     pairings.push({ white: whitePlayer, black: blackPlayer });
   }
@@ -110,8 +115,6 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
     const byePlayer = remainingPlayers[0];
     console.log(`Player ${byePlayer.name} has a bye this round.`);
     
-    // You could create a special pairing for a bye, or handle it separately
-    // For now, we'll add a "bye" player
     const byeOpponent: Player = {
       name: "BYE",
       elo: 0,
