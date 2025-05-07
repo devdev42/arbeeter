@@ -1,4 +1,3 @@
-
 import { Player, Pairing, Round } from "../types/chess";
 
 // Function to parse CSV data
@@ -48,6 +47,34 @@ export const generateScorePairings = (players: Player[]): Pairing[] => {
       return b.elo - a.elo;
     }
     return (b.score || 0) - (a.score || 0);
+  });
+  
+  return generatePairingsWithSchoolCheck(sortedPlayers);
+};
+
+// Function to generate pairings based on score first, then rating (Score/Rating pairing)
+export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
+  // Group players by score buckets
+  const playersByScore = new Map<number, Player[]>();
+  
+  players.forEach(player => {
+    const score = player.score || 0;
+    if (!playersByScore.has(score)) {
+      playersByScore.set(score, []);
+    }
+    playersByScore.get(score)!.push(player);
+  });
+  
+  // Sort score buckets in descending order
+  const sortedScores = Array.from(playersByScore.keys()).sort((a, b) => b - a);
+  
+  // Sort players within each score bucket by rating
+  const sortedPlayers: Player[] = [];
+  sortedScores.forEach(score => {
+    const playersWithSameScore = playersByScore.get(score)!;
+    // Sort by rating within the score bucket
+    playersWithSameScore.sort((a, b) => b.elo - a.elo);
+    sortedPlayers.push(...playersWithSameScore);
   });
   
   return generatePairingsWithSchoolCheck(sortedPlayers);
@@ -152,10 +179,22 @@ export const generateStandings = (players: Player[]): Player[] => {
     });
 };
 
-export const generateNewRound = (players: Player[], roundType: "elo" | "score", roundNumber: number): Round => {
-  const pairings = roundType === "elo" 
-    ? generateEloPairings(players) 
-    : generateScorePairings(players);
+export const generateNewRound = (players: Player[], roundType: "elo" | "score" | "score-rating", roundNumber: number): Round => {
+  let pairings: Pairing[];
+  
+  switch (roundType) {
+    case "elo":
+      pairings = generateEloPairings(players);
+      break;
+    case "score":
+      pairings = generateScorePairings(players);
+      break;
+    case "score-rating":
+      pairings = generateScoreRatingPairings(players);
+      break;
+    default:
+      pairings = generateScorePairings(players);
+  }
     
   return {
     number: roundNumber,

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Tournament, Player, Round } from '../types/chess';
 import { parseCSV, generateNewRound } from '../utils/tournamentUtils';
@@ -6,8 +5,8 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface TournamentContextType {
   tournament: Tournament | null;
-  initializeTournament: (name: string, playersCSV: string, firstRoundType: "elo" | "score") => void;
-  startNewRound: (roundType: "elo" | "score") => void;
+  initializeTournament: (name: string, playersCSV: string, firstRoundType: "elo" | "score" | "score-rating") => void;
+  startNewRound: (roundType: "elo" | "score" | "score-rating") => void;
   updatePlayers: (playersCSV: string) => void;
   exportStandings: () => string;
   exitTournament: () => void;
@@ -51,7 +50,7 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [tournament]);
 
-  const initializeTournament = (name: string, playersCSV: string, firstRoundType: "elo" | "score") => {
+  const initializeTournament = (name: string, playersCSV: string, firstRoundType: "elo" | "score" | "score-rating") => {
     try {
       setIsLoading(true);
       
@@ -96,7 +95,7 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  const startNewRound = (roundType: "elo" | "score") => {
+  const startNewRound = (roundType: "elo" | "score" | "score-rating") => {
     if (!tournament) return;
     
     try {

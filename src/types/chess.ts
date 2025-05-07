@@ -17,7 +17,7 @@ export interface Pairing {
 export interface Round {
   number: number;
   pairings: Pairing[];
-  type: "elo" | "score";
+  type: "elo" | "score" | "score-rating";
 }
 
 export interface Tournament {

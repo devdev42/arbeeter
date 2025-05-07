@@ -8,7 +8,7 @@ import CSVUploader from "./CSVUploader";
 import { useTournament } from "../contexts/TournamentContext";
 
 const NewRoundCreator = () => {
-  const [roundType, setRoundType] = useState<"elo" | "score">("score");
+  const [roundType, setRoundType] = useState<"elo" | "score" | "score-rating">("score");
   const { startNewRound, updatePlayers } = useTournament();
 
   const handleCSVUpload = (csv: string) => {
@@ -31,7 +31,7 @@ const NewRoundCreator = () => {
               <h3 className="mb-2 font-medium">Pairing Method</h3>
               <RadioGroup 
                 value={roundType} 
-                onValueChange={(value) => setRoundType(value as "elo" | "score")}
+                onValueChange={(value) => setRoundType(value as "elo" | "score" | "score-rating")}
                 className="flex flex-col space-y-2"
               >
                 <div className="flex items-center space-x-2">
@@ -41,6 +41,10 @@ const NewRoundCreator = () => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="score" id="score" />
                   <Label htmlFor="score">Score-Based Pairings</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="score-rating" id="score-rating" />
+                  <Label htmlFor="score-rating">Score/Rating Pairings</Label>
                 </div>
               </RadioGroup>
             </div>
