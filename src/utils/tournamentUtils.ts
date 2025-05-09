@@ -179,6 +179,52 @@ export const generateStandings = (players: Player[]): Player[] => {
     });
 };
 
+// Interface for school standings
+interface SchoolStanding {
+  name: string;
+  playerCount: number;
+  totalScore: number;
+  averageElo: number;
+}
+
+// Function to generate school standings
+export const generateSchoolStandings = (players: Player[]): SchoolStanding[] => {
+  const schoolMap = new Map<string, { players: Player[], totalScore: number, totalElo: number }>();
+  
+  // Filter out BYE players and group players by school
+  players
+    .filter(player => player.name !== "BYE")
+    .forEach(player => {
+      const schoolName = player.school;
+      if (!schoolMap.has(schoolName)) {
+        schoolMap.set(schoolName, { 
+          players: [], 
+          totalScore: 0, 
+          totalElo: 0 
+        });
+      }
+      
+      const schoolData = schoolMap.get(schoolName)!;
+      schoolData.players.push(player);
+      schoolData.totalScore += player.score || 0;
+      schoolData.totalElo += player.elo;
+    });
+  
+  // Convert map to array and calculate stats
+  const schoolStandings: SchoolStanding[] = Array.from(schoolMap.entries()).map(([name, data]) => {
+    return {
+      name,
+      playerCount: data.players.length,
+      totalScore: data.totalScore,
+      averageElo: data.totalElo / data.players.length
+    };
+  });
+  
+  // Sort by total score (descending)
+  return schoolStandings.sort((a, b) => b.totalScore - a.totalScore);
+};
+
+// Function to generate new round
 export const generateNewRound = (players: Player[], roundType: "elo" | "score" | "score-rating", roundNumber: number): Round => {
   let pairings: Pairing[];
   
