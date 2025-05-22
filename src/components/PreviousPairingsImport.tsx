@@ -79,7 +79,7 @@ const PreviousPairingsImport = () => {
                   CSV in this order: Round, White, Black. Example:
                 </p>
                 <pre className="bg-slate-100 p-2 rounded text-sm overflow-auto">
-                  {getExampleCSV()}
+                  Round,White,Black\n1, joe, catie
                 </pre>
               </AlertDescription>
             </Alert>
