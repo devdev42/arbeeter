@@ -44,19 +44,6 @@ const PreviousPairingsImport = () => {
     }
   };
 
-  const getExampleCSV = () => {
-    if (!tournament || !tournament.players.length) return "";
-    
-    const players = tournament.players.filter(player => player.name !== "BYE").slice(0, 4);
-    if (players.length < 2) return "Round,White,Black";
-    
-    let csv = "Round,White,Black\n";
-    csv += `1,${players[0].name},${players[1].name}\n`;
-    if (players.length >= 4) {
-      csv += `1,${players[2].name},${players[3].name}\n`;
-    }
-    return csv;
-  };
 
   return (
     <div className="space-y-6">
