@@ -1,4 +1,3 @@
-
 import { Player, Pairing, Round } from "../types/chess";
 
 // Function to parse CSV data
@@ -323,4 +322,77 @@ export const generateNewRound = (players: Player[], roundType: "elo" | "score" |
     pairings,
     type: roundType
   };
+};
+
+// Interface for storing parsed pairing data
+interface PreviousPairing {
+  round: number;
+  white: string;
+  black: string;
+}
+
+// Function to parse previous pairings CSV
+export const parsePreviousPairingsCSV = (
+  csvData: string,
+  players: Player[]
+): { pairings: PreviousPairing[], errors: string[] } => {
+  const lines = csvData.trim().split('\n');
+  const pairings: PreviousPairing[] = [];
+  const errors: string[] = [];
+  const playerNames = players
+    .filter(player => player.name !== "BYE")
+    .map(player => player.name);
+  
+  // Ensure CSV has a header row
+  if (lines.length < 2) {
+    errors.push("CSV must contain a header row and at least one pairing");
+    return { pairings, errors };
+  }
+  
+  // Check header
+  const header = lines[0].toLowerCase().split(',');
+  if (!header.includes('round') || !header.includes('white') || !header.includes('black')) {
+    errors.push("CSV header must include 'Round', 'White', and 'Black' columns");
+    return { pairings, errors };
+  }
+  
+  // Find column indices
+  const roundIdx = header.indexOf('round');
+  const whiteIdx = header.indexOf('white');
+  const blackIdx = header.indexOf('black');
+  
+  // Skip header row
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue; // Skip empty lines
+    
+    const values = lines[i].split(',');
+    
+    if (values.length <= Math.max(roundIdx, whiteIdx, blackIdx)) {
+      errors.push(`Line ${i + 1}: Missing required columns`);
+      continue;
+    }
+    
+    const round = parseInt(values[roundIdx].trim());
+    const white = values[whiteIdx].trim();
+    const black = values[blackIdx].trim();
+    
+    if (isNaN(round) || round <= 0) {
+      errors.push(`Line ${i + 1}: Invalid round number "${values[roundIdx]}"`);
+      continue;
+    }
+    
+    if (!playerNames.includes(white)) {
+      errors.push(`Line ${i + 1}: White player "${white}" not found in tournament`);
+      continue;
+    }
+    
+    if (!playerNames.includes(black)) {
+      errors.push(`Line ${i + 1}: Black player "${black}" not found in tournament`);
+      continue;
+    }
+    
+    pairings.push({ round, white, black });
+  }
+  
+  return { pairings, errors };
 };

@@ -6,6 +6,7 @@ import TournamentHeader from "../components/TournamentHeader";
 import PairingsList from "../components/PairingsList";
 import StandingsList from "../components/StandingsList";
 import NewRoundCreator from "../components/NewRoundCreator";
+import PreviousPairingsImport from "../components/PreviousPairingsImport";
 import { useTournament } from "../contexts/TournamentContext";
 import { LoaderCircle } from "lucide-react";
 
@@ -29,7 +30,7 @@ const TournamentManager = () => {
       <TournamentHeader />
       
       <Tabs defaultValue="pairings" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-[#1A2750]/10">
+        <TabsList className="grid w-full grid-cols-4 bg-[#1A2750]/10">
           <TabsTrigger 
             value="pairings" 
             className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-[#FECC00]"
@@ -48,6 +49,12 @@ const TournamentManager = () => {
           >
             Next Round
           </TabsTrigger>
+          <TabsTrigger 
+            value="previousPairings"
+            className="data-[state=active]:bg-[#1A2750] data-[state=active]:text-[#FECC00]"
+          >
+            Previous Pairings
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="pairings" className="mt-6">
@@ -62,6 +69,10 @@ const TournamentManager = () => {
         
         <TabsContent value="nextRound" className="mt-6">
           <NewRoundCreator />
+        </TabsContent>
+        
+        <TabsContent value="previousPairings" className="mt-6">
+          <PreviousPairingsImport />
         </TabsContent>
       </Tabs>
     </div>

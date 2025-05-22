@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Tournament, Player, Round } from '../types/chess';
-import { parseCSV, generateNewRound } from '../utils/tournamentUtils';
-import { useToast } from "@/components/ui/use-toast";
+import { parseCSV, generateNewRound, parsePreviousPairingsCSV } from '../utils/tournamentUtils';
+import { useToast } from "@/hooks/use-toast";
 
 interface TournamentContextType {
   tournament: Tournament | null;
@@ -10,6 +10,7 @@ interface TournamentContextType {
   updatePlayers: (playersCSV: string) => void;
   exportStandings: () => string;
   exitTournament: () => void;
+  importPreviousPairings: (pairingsCSV: string) => string;
   isLoading: boolean;
 }
 
@@ -20,6 +21,7 @@ const TournamentContext = createContext<TournamentContextType>({
   updatePlayers: () => {},
   exportStandings: () => "",
   exitTournament: () => {},
+  importPreviousPairings: () => "",
   isLoading: false
 });
 
@@ -206,6 +208,59 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     });
   };
 
+  const importPreviousPairings = (pairingsCSV: string): string => {
+    if (!tournament) {
+      throw new Error("No active tournament. Please create or join a tournament first.");
+    }
+    
+    try {
+      setIsLoading(true);
+      
+      // Parse the pairings CSV to get player pairing history
+      const { pairings, errors } = parsePreviousPairingsCSV(pairingsCSV, tournament.players);
+      
+      if (errors.length > 0) {
+        throw new Error(`Errors in CSV: ${errors.join(", ")}`);
+      }
+      
+      if (pairings.length === 0) {
+        throw new Error("No valid pairings found in the CSV.");
+      }
+      
+      // Update the players' opponent history
+      const updatedPlayers = [...tournament.players];
+      
+      pairings.forEach(pair => {
+        const whitePlayer = updatedPlayers.find(p => p.name === pair.white);
+        const blackPlayer = updatedPlayers.find(p => p.name === pair.black);
+        
+        if (whitePlayer && blackPlayer) {
+          if (!whitePlayer.opponents) whitePlayer.opponents = [];
+          if (!blackPlayer.opponents) blackPlayer.opponents = [];
+          
+          whitePlayer.opponents.push(blackPlayer.id || '');
+          blackPlayer.opponents.push(whitePlayer.id || '');
+        }
+      });
+      
+      setTournament(prev => {
+        if (!prev) return null;
+        
+        return {
+          ...prev,
+          players: updatedPlayers
+        };
+      });
+      
+      return `Successfully imported ${pairings.length} pairings.`;
+    } catch (error) {
+      console.error("Error importing previous pairings:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <TournamentContext.Provider
       value={{
@@ -215,6 +270,7 @@ export const TournamentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         updatePlayers,
         exportStandings,
         exitTournament,
+        importPreviousPairings,
         isLoading
       }}
     >
