@@ -1,3 +1,4 @@
+
 import { Player, Pairing, Round } from "../types/chess";
 
 // Function to parse CSV data
@@ -68,16 +69,91 @@ export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
   // Sort score buckets in descending order
   const sortedScores = Array.from(playersByScore.keys()).sort((a, b) => b - a);
   
-  // Sort players within each score bucket by rating
-  const sortedPlayers: Player[] = [];
-  sortedScores.forEach(score => {
+  // Process each score group separately to create pairings
+  const pairings: Pairing[] = [];
+  const remainingPlayers: Player[] = [];
+  
+  // First, sort players within each score bucket by rating and create pairings
+  for (const score of sortedScores) {
     const playersWithSameScore = playersByScore.get(score)!;
+    
     // Sort by rating within the score bucket
     playersWithSameScore.sort((a, b) => b.elo - a.elo);
-    sortedPlayers.push(...playersWithSameScore);
-  });
+    
+    // If we have an odd number of players in this score bucket and there are more score buckets coming,
+    // save the last player to be paired with someone from the next score bucket
+    if (playersWithSameScore.length % 2 !== 0 && sortedScores.indexOf(score) < sortedScores.length - 1) {
+      // Process pairs within this score bucket
+      for (let i = 0; i < playersWithSameScore.length - 1; i += 2) {
+        const whitePlayer = playersWithSameScore[i];
+        const blackPlayer = playersWithSameScore[i + 1];
+        
+        // Skip if they've already played each other
+        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || blackPlayer.opponents?.includes(whitePlayer.id || '')) {
+          // If they've already played, add both to remainingPlayers for later pairing
+          remainingPlayers.push(whitePlayer, blackPlayer);
+          continue;
+        }
+        
+        // Update opponents lists
+        if (!whitePlayer.opponents) whitePlayer.opponents = [];
+        if (!blackPlayer.opponents) blackPlayer.opponents = [];
+        
+        whitePlayer.opponents.push(blackPlayer.id || '');
+        blackPlayer.opponents.push(whitePlayer.id || '');
+        
+        pairings.push({ white: whitePlayer, black: blackPlayer });
+      }
+      
+      // Add the last player to remainingPlayers
+      remainingPlayers.push(playersWithSameScore[playersWithSameScore.length - 1]);
+    } else {
+      // Process all players in this score bucket
+      for (let i = 0; i < playersWithSameScore.length; i += 2) {
+        if (i + 1 >= playersWithSameScore.length) {
+          // Odd player out, add to remainingPlayers
+          remainingPlayers.push(playersWithSameScore[i]);
+          continue;
+        }
+        
+        const whitePlayer = playersWithSameScore[i];
+        const blackPlayer = playersWithSameScore[i + 1];
+        
+        // Skip if they've already played each other
+        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || blackPlayer.opponents?.includes(whitePlayer.id || '')) {
+          // If they've already played, add both to remainingPlayers for later pairing
+          remainingPlayers.push(whitePlayer, blackPlayer);
+          continue;
+        }
+        
+        // Update opponents lists
+        if (!whitePlayer.opponents) whitePlayer.opponents = [];
+        if (!blackPlayer.opponents) blackPlayer.opponents = [];
+        
+        whitePlayer.opponents.push(blackPlayer.id || '');
+        blackPlayer.opponents.push(whitePlayer.id || '');
+        
+        pairings.push({ white: whitePlayer, black: blackPlayer });
+      }
+    }
+  }
   
-  return generatePairingsWithSchoolCheck(sortedPlayers);
+  // If we have any remaining players that couldn't be paired within their score groups
+  if (remainingPlayers.length > 0) {
+    // Sort remaining players by score first, then by rating
+    remainingPlayers.sort((a, b) => {
+      if ((b.score || 0) === (a.score || 0)) {
+        return b.elo - a.elo;
+      }
+      return (b.score || 0) - (a.score || 0);
+    });
+    
+    // Use the school-checking pairing function for remaining players
+    const remainingPairings = generatePairingsWithSchoolCheck(remainingPlayers);
+    pairings.push(...remainingPairings);
+  }
+  
+  return pairings;
 };
 
 // Helper function to generate pairings while avoiding school conflicts and previous opponents
