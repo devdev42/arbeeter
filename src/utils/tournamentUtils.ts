@@ -1,3 +1,4 @@
+
 import { Player, Pairing, Round } from "../types/chess";
 
 // Function to parse CSV data
@@ -200,16 +201,21 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
       blackPlayerIndex = 0;
     }
     
-    const blackPlayer = remainingPlayers.splice(blackPlayerIndex, 1)[0];
+    const player2 = remainingPlayers.splice(blackPlayerIndex, 1)[0];
     
     // Update opponents lists
     if (!whitePlayer.opponents) whitePlayer.opponents = [];
-    if (!blackPlayer.opponents) blackPlayer.opponents = [];
+    if (!player2.opponents) player2.opponents = [];
     
-    whitePlayer.opponents.push(blackPlayer.id);
-    blackPlayer.opponents.push(whitePlayer.id);
+    whitePlayer.opponents.push(player2.id);
+    player2.opponents.push(whitePlayer.id);
     
-    pairings.push({ white: whitePlayer, black: blackPlayer });
+    // Randomly determine which player gets white and which gets black
+    const isRandomWhite = Math.random() >= 0.5;
+    const white = isRandomWhite ? whitePlayer : player2;
+    const black = isRandomWhite ? player2 : whitePlayer;
+    
+    pairings.push({ white, black });
   }
   
   // Handle odd number of players (give the last player a bye)
