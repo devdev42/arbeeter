@@ -22,7 +22,7 @@ const PreviousPairingsImport = () => {
     if (!csvText.trim()) {
       toast({
         title: "Error",
-        description: "Please upload or paste a CSV file first.",
+        description: "Upload or paste a CSV file first.",
         variant: "destructive",
       });
       return;
@@ -73,11 +73,10 @@ const PreviousPairingsImport = () => {
               <AlertTitle>How to use this feature</AlertTitle>
               <AlertDescription>
                 <p className="mb-2">
-                  Import previous pairings from a CSV file to ensure no players are paired against each other twice. 
-                  This is useful if you're resuming a tournament or importing data from another system.
+                  Import previous pairings from a CSV file to ensure no players are paired against each other twice.
                 </p>
                 <p className="mb-2">
-                  The CSV should have three columns: Round, White, Black. Example:
+                  CSV in this order: Round, White, Black. Example:
                 </p>
                 <pre className="bg-slate-100 p-2 rounded text-sm overflow-auto">
                   {getExampleCSV()}
