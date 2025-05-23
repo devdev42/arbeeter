@@ -1,4 +1,3 @@
-
 import { Player, Pairing, Round } from "../types/chess";
 
 // Function to parse CSV data
@@ -89,8 +88,10 @@ export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
         const blackPlayer = playersWithSameScore[i + 1];
         
         // Skip if they've already played each other
-        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || blackPlayer.opponents?.includes(whitePlayer.id || '')) {
-          // If they've already played, add both to remainingPlayers for later pairing
+        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || 
+            blackPlayer.opponents?.includes(whitePlayer.id || '') || 
+            whitePlayer.school === blackPlayer.school) { // Added check to avoid same school pairings
+          // If they've already played or same school, add both to remainingPlayers for later pairing
           remainingPlayers.push(whitePlayer, blackPlayer);
           continue;
         }
@@ -102,7 +103,12 @@ export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
         whitePlayer.opponents.push(blackPlayer.id || '');
         blackPlayer.opponents.push(whitePlayer.id || '');
         
-        pairings.push({ white: whitePlayer, black: blackPlayer });
+        // Randomly determine which player gets white and which gets black
+        const isRandomWhite = Math.random() >= 0.5;
+        const white = isRandomWhite ? whitePlayer : blackPlayer;
+        const black = isRandomWhite ? blackPlayer : whitePlayer;
+        
+        pairings.push({ white, black });
       }
       
       // Add the last player to remainingPlayers
@@ -119,9 +125,11 @@ export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
         const whitePlayer = playersWithSameScore[i];
         const blackPlayer = playersWithSameScore[i + 1];
         
-        // Skip if they've already played each other
-        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || blackPlayer.opponents?.includes(whitePlayer.id || '')) {
-          // If they've already played, add both to remainingPlayers for later pairing
+        // Skip if they've already played each other or same school
+        if (whitePlayer.opponents?.includes(blackPlayer.id || '') || 
+            blackPlayer.opponents?.includes(whitePlayer.id || '') ||
+            whitePlayer.school === blackPlayer.school) { // Added check to avoid same school pairings
+          // If they've already played or same school, add both to remainingPlayers for later pairing
           remainingPlayers.push(whitePlayer, blackPlayer);
           continue;
         }
@@ -133,7 +141,12 @@ export const generateScoreRatingPairings = (players: Player[]): Pairing[] => {
         whitePlayer.opponents.push(blackPlayer.id || '');
         blackPlayer.opponents.push(whitePlayer.id || '');
         
-        pairings.push({ white: whitePlayer, black: blackPlayer });
+        // Randomly determine which player gets white and which gets black
+        const isRandomWhite = Math.random() >= 0.5;
+        const white = isRandomWhite ? whitePlayer : blackPlayer;
+        const black = isRandomWhite ? blackPlayer : whitePlayer;
+        
+        pairings.push({ white, black });
       }
     }
   }
@@ -186,8 +199,23 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
         
         const notPlayedBefore = !whitePlayer.opponents?.includes(potentialOpponent.id) && 
                                 !potentialOpponent.opponents?.includes(whitePlayer.id);
+        const differentSchools = whitePlayer.school !== potentialOpponent.school;
         
-        if (notPlayedBefore) {
+        // Only accept if schools are different
+        if (notPlayedBefore && differentSchools) {
+          blackPlayerIndex = i;
+          break;
+        }
+      }
+    }
+    
+    // Third priority: Check if there are any players from different schools at all
+    if (blackPlayerIndex === -1) {
+      for (let i = 0; i < remainingPlayers.length; i++) {
+        const potentialOpponent = remainingPlayers[i];
+        
+        // At this point we just want different schools, even if they've played before
+        if (whitePlayer.school !== potentialOpponent.school) {
           blackPlayerIndex = i;
           break;
         }
@@ -195,9 +223,9 @@ const generatePairingsWithSchoolCheck = (sortedPlayers: Player[]): Pairing[] => 
     }
     
     // Last resort: Take the first available opponent
-    // This should only happen if all remaining players have already played against this player
+    // Only if absolutely necessary (all remaining players have already played against this player and are from same school)
     if (blackPlayerIndex === -1) {
-      console.log(`Warning: Player ${whitePlayer.name} has already played against all remaining opponents.`);
+      console.log(`Warning: Player ${whitePlayer.name} has to be paired with someone from the same school because no other options are available.`);
       blackPlayerIndex = 0;
     }
     
